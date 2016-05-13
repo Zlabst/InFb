@@ -5,3 +5,12 @@
 <div class="jumbotron">
     <h1>Hello!</h1>
 </div>
+<br /><br />
+
+<div>
+    @using (Html.BeginForm("Show", "Gallery"))
+    {
+    <input id="account" type="text" name="galleryname" class="s" />
+    <input id="Search" type="submit" class="b" value="hi" />
+    }
+</div>
