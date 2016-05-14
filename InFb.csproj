@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddingController.cs" />
     <Compile Include="Controllers\EntriesController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -137,7 +138,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\Links.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\InstGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -181,6 +184,8 @@
     <Content Include="Views\Entries\Index.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Gallery\Show.cshtml" />
+    <Content Include="Views\Adding\Show.cshtml" />
+    <Content Include="Views\Adding\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

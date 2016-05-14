@@ -3,8 +3,28 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Show</h2>
+<div>
+    @using (Html.BeginForm("Index", "Adding"))
+    {
+        <br /><br />
+        
+        <input id="account" type="text" name="galleryname" class="s" />
+        <p>Gallery name</p>
+        <input id="account" type="text" name="link" class="s" />
+        <p>Instagram link</p>
+        <input id="Search" type="submit" class="b" value="Add new entry" />
+    }
+</div>
 
-<a href="@ViewBag.Message">
-    <img src="@ViewBag.Message" width="100px" />
-</a>
+<h2>@ViewBag.Gallery</h2>
+
+@foreach (var item in ViewBag.Message)
+{
+    <p>@item.Gallery</p>
+    foreach (var adress in item.Images)
+    {
+        <a href=@adress><img src=@adress></a>
+    }
+    <a href=@item.Gallery>Check out full gallery!</a>
+    <br /><br /><br /><br /><br /><br />
+}
