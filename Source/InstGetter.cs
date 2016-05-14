@@ -14,7 +14,7 @@ namespace InFb.Source
         public List<string> GetLinks(string tag)
         {
             string strtagName = tag;
-            string strAccessToken = "3238442453.1677ed0.11d9045c025f436da93fb21cc87c77a4";
+            string strAccessToken = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
             string nextPageUrl = null;
             string imageUrl = null;
             List<string> result = new List<string>();
