@@ -17,7 +17,16 @@ namespace InFb.Controllers
         public ActionResult Show(string galleryname)
         {
             //Console.WriteLine(galleryname);
-            ViewBag.Message = HttpUtility.HtmlEncode("Witaj " + galleryname);
+            if (galleryname == "1")
+            {
+                ViewBag.Message = "<a href=" + "http://upload.wikimedia.org/wikipedia/commons/6/6b/Big_Sur_June_2008.jpg" + ">";
+            }
+            else
+            {
+                ViewBag.Message = "http://upload.wikimedia.org/wikipedia/commons/6/6b/Big_Sur_June_2008.jpg";
+            }
+
+            //ViewBag.Message = HttpUtility.HtmlEncode(galleryname);
 
             return View();
             
