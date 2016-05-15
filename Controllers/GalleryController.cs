@@ -21,9 +21,16 @@ namespace InFb.Controllers
         {
             string result = "";
             int pos = link.IndexOf("/tags/");
-            for (int i=pos+6; i<link.Length-1; i++)
+            for (int i=pos+6; i<link.Length-1; i++)//getting tag
             {
                 result += link[i];
+            }
+            foreach (char c in result)//veryfing if tag is proper
+            {
+                if (!Char.IsLetter(c))
+                {
+                    return "error";
+                }
             }
             return result;
         }
