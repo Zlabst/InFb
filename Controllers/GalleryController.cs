@@ -17,7 +17,7 @@ namespace InFb.Controllers
             return View();
         }
 
-        public string ExtractTag(string link)
+        public string ExtractInstTag(string link)
         {
             string result = "";
             int pos = link.IndexOf("/tags/");
@@ -30,6 +30,24 @@ namespace InFb.Controllers
                 if (!Char.IsLetter(c))
                 {
                     return "error";
+                }
+            }
+            return result;
+        }
+
+        public string ExtractFbTag(string link)
+        {
+            string result = "";
+            int pos = link.IndexOf("?set=a.");
+            for (int i = pos + 7; i < pos + 23; i++)//getting tag
+            {
+                result += link[i];
+            }
+            foreach (char c in result)//veryfing if tag is proper
+            {
+                if (!Char.IsDigit(c))
+                {
+                    return null;
                 }
             }
             return result;
@@ -58,17 +76,32 @@ namespace InFb.Controllers
             {
                 if (link.Contains("instagram.com/explore/tags/"))
                     linksChecked.Add(link);
+                else if (link.Contains("www.facebook.com/media/set"))
+                {
+                    linksChecked.Add(link);
+                }
             }
 
             List<Links> result = new List<Links>();
             InstGetter inst = new InstGetter();
+            FbGetter fb = new FbGetter();
             foreach (string a in linksChecked)
             {
-                string tag = ExtractTag(a);
+                string tag;
                 Links tmp = new Links();
-                tmp.Images = inst.GetLinks(tag);
+                if (a.Contains("instagram.com/explore/tags/"))
+                {
+                    tag = ExtractInstTag(a);
+                    tmp.Images = inst.GetLinks(tag);
+                }
+                else if (a.Contains("www.facebook.com/media/set"))
+                {
+                    tag = ExtractFbTag(a);
+                    tmp.Images = fb.GetLinks(tag);
+                }
                 tmp.Gallery = a;
-                result.Add(tmp);
+                if (tmp.Images!=null)
+                    result.Add(tmp);
             }
 
             ViewBag.Message = result;

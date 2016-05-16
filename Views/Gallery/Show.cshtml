@@ -23,7 +23,12 @@
     <p>@item.Gallery</p>
     foreach (var adress in item.Images)
     {
-        <a href=@adress><img src=@adress></a>
+        if (adress != null)
+        {
+            <a href="@adress">
+                <img src="@adress" width="180px" />
+            </a>
+        }
     }
     <a href=@item.Gallery>Check out full gallery!</a>
     <br /><br /><br /><br /><br /><br />

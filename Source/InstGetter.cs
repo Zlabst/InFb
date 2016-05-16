@@ -31,7 +31,6 @@ namespace InFb.Source
             using (StreamReader reader = new StreamReader(responseStream, encode))
             {
                 JToken token = JObject.Parse(reader.ReadToEnd());
-                //Console.WriteLine(token);
                 var pagination = token.SelectToken("pagination");
                 if (pagination != null && pagination.SelectToken("images") != null)
                 {
@@ -46,7 +45,6 @@ namespace InFb.Source
                 {
                     imageUrl = image.SelectToken("images").SelectToken("thumbnail").SelectToken("url").ToString();
                     result.Add(imageUrl);
-                    Console.WriteLine(imageUrl);
                     if (String.IsNullOrEmpty(imageUrl))
                         Console.WriteLine("broken image URL");
 

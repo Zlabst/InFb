@@ -140,6 +140,7 @@
     <Compile Include="Models\Entry.cs" />
     <Compile Include="Models\Links.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\FbGetter.cs" />
     <Compile Include="Source\InstGetter.cs" />
   </ItemGroup>
   <ItemGroup>
