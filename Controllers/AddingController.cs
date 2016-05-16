@@ -13,15 +13,18 @@ namespace InFb.Controllers
         // GET: Adding
         public ActionResult Index(string galleryname, string link)
         {
-            
-            using (var db = new EntryContext())
-            {
-                var max = db.Entries.OrderByDescending(u => u.EntryID).FirstOrDefault();
 
-                Entry en = new Entry { Name = galleryname, Link = link, EntryID=max.EntryID + 1 };
-                db.Entries.Add(en);
+            using (var db = new DataContext())
+            {
+                var gallery = from ga in db.Galleries where ga.Name == galleryname select ga;
+                var gall = gallery.FirstOrDefault<Gallery>();
+
+                var max = db.Links.OrderByDescending(u => u.LinkID).FirstOrDefault();
+
+                Link en = new Link { GalleryID = gall.GalleryID, Adress = link, LinkID = max.LinkID + 1 };
+                db.Links.Add(en);
                 db.SaveChanges();
-                
+
             }
 
 

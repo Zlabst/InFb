@@ -39,10 +39,15 @@ namespace InFb.Controllers
         {
             string result = "";
             int pos = link.IndexOf("?set=a.");
-            for (int i = pos + 7; i < pos + 23; i++)//getting tag
+            pos += 7;
+            while (link[pos] != '.')
+            {
+                result += link[pos++];
+            }
+            /*for (int i = pos + 7; i < pos + 23; i++)//getting tag
             {
                 result += link[i];
-            }
+            }*/
             foreach (char c in result)//veryfing if tag is proper
             {
                 if (!Char.IsDigit(c))
@@ -60,35 +65,33 @@ namespace InFb.Controllers
             //List < string > result = inst.GetLinks(galleryname);
 
 
-            List<string> links = new List<string>();
-            using (var db = new EntryContext())
+            List<Link> links = new List<Link>();
+            using (var db = new DataContext())
             {
-                var query = from b in db.Entries where b.Name == galleryname select b;
-
-                //ViewBag.Message = query;
-                foreach(var a in query)
+                Gallery gal = db.Galleries.First(c => c.Name == galleryname);
+                foreach (var a in gal.Links)
                 {
-                    links.Add(a.Link);
+                    links.Add(a);
                 }
             }
             List<string> linksChecked = new List<string>();
-            foreach (string link in links)
+            foreach (var link in links)
             {
-                if (link.Contains("instagram.com/explore/tags/"))
-                    linksChecked.Add(link);
-                else if (link.Contains("www.facebook.com/media/set"))
+                if (link.Adress.Contains("instagram.com/explore/tags/"))
+                    linksChecked.Add(link.Adress);
+                else if (link.Adress.Contains("www.facebook.com/media/set"))
                 {
-                    linksChecked.Add(link);
+                    linksChecked.Add(link.Adress);
                 }
             }
 
-            List<Links> result = new List<Links>();
+            List<GalleryLinks> result = new List<GalleryLinks>();
             InstGetter inst = new InstGetter();
             FbGetter fb = new FbGetter();
             foreach (string a in linksChecked)
             {
                 string tag;
-                Links tmp = new Links();
+                GalleryLinks tmp = new GalleryLinks();
                 if (a.Contains("instagram.com/explore/tags/"))
                 {
                     tag = ExtractInstTag(a);
