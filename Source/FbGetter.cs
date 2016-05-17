@@ -11,13 +11,37 @@ namespace InFb.Source
 {
     class FbGetter
     {
-        public List<string> GetLinks(string tag)
+        private string GetTag(string link)
         {
-            if (tag == null)
+            string result = "";
+            int pos = link.IndexOf("?set=a.");
+            pos += 7;
+            while (link[pos] != '.')
+            {
+                result += link[pos++];
+            }
+            /*for (int i = pos + 7; i < pos + 23; i++)//getting tag
+            {
+                result += link[i];
+            }*/
+            foreach (char c in result)//veryfing if tag is proper
+            {
+                if (!Char.IsDigit(c))
+                {
+                    return null;
+                }
+            }
+            return result;
+        }
+
+
+        public List<string> GetLinks(string link)
+        {
+            if (link == null)
             {
                 return null;
             }
-            string strtagName = tag;
+            string strtagName = this.GetTag(link);
             string strAccessToken = "xxx";
             string nextPageUrl = null;
             string imageUrl = null;
@@ -28,6 +52,14 @@ namespace InFb.Source
                 webRequest = HttpWebRequest.Create(String.Format("https://graph.facebook.com/{0}/photos?&fields=id,source&limit=20&access_token={1}", strtagName, strAccessToken));
             else
                 webRequest = HttpWebRequest.Create(nextPageUrl);
+            try
+            {
+                var responseStream1 = webRequest.GetResponse().GetResponseStream();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
 
             var responseStream = webRequest.GetResponse().GetResponseStream();
 

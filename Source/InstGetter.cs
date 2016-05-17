@@ -11,10 +11,29 @@ namespace InFb.Source
 {
     class InstGetter
     {
+        private string GetTag(string link)
+        {
+            string result = "";
+            int pos = link.IndexOf("/tags/");
+            for (int i = pos + 6; i < link.Length - 1; i++)//getting tag
+            {
+                result += link[i];
+            }
+            foreach (char c in result)//veryfing if tag is proper
+            {
+                if (!Char.IsLetter(c))
+                {
+                    return "error";
+                }
+            }
+            return result;
+        }
+
+
         public List<string> GetLinks(string tag)
         {
-            string strtagName = tag;
-            string strAccessToken = "iii";
+            string strtagName = this.GetTag(tag);
+            string strAccessToken = "xxx";
             string nextPageUrl = null;
             string imageUrl = null;
             List<string> result = new List<string>();
@@ -24,9 +43,18 @@ namespace InFb.Source
                 webRequest = HttpWebRequest.Create(String.Format("https://api.instagram.com/v1/tags/{0}/media/recent?access_token={1}", strtagName, strAccessToken));
             else
                 webRequest = HttpWebRequest.Create(nextPageUrl);
-                
+
+            try
+            {
+                var responseStream1 = webRequest.GetResponse().GetResponseStream();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
             var responseStream = webRequest.GetResponse().GetResponseStream();
-                
+
             Encoding encode = System.Text.Encoding.Default;
             using (StreamReader reader = new StreamReader(responseStream, encode))
             {

@@ -16,55 +16,9 @@ namespace InFb.Controllers
         {
             return View();
         }
-
-        public string ExtractInstTag(string link)
-        {
-            string result = "";
-            int pos = link.IndexOf("/tags/");
-            for (int i=pos+6; i<link.Length-1; i++)//getting tag
-            {
-                result += link[i];
-            }
-            foreach (char c in result)//veryfing if tag is proper
-            {
-                if (!Char.IsLetter(c))
-                {
-                    return "error";
-                }
-            }
-            return result;
-        }
-
-        public string ExtractFbTag(string link)
-        {
-            string result = "";
-            int pos = link.IndexOf("?set=a.");
-            pos += 7;
-            while (link[pos] != '.')
-            {
-                result += link[pos++];
-            }
-            /*for (int i = pos + 7; i < pos + 23; i++)//getting tag
-            {
-                result += link[i];
-            }*/
-            foreach (char c in result)//veryfing if tag is proper
-            {
-                if (!Char.IsDigit(c))
-                {
-                    return null;
-                }
-            }
-            return result;
-        }
-
+        
         public ActionResult Show(string galleryname)
         {
-            //Console.WriteLine(galleryname);
-            //InstGetter inst = new InstGetter();
-            //List < string > result = inst.GetLinks(galleryname);
-
-
             List<Link> links = new List<Link>();
             using (var db = new DataContext())
             {
@@ -94,13 +48,11 @@ namespace InFb.Controllers
                 GalleryLinks tmp = new GalleryLinks();
                 if (a.Contains("instagram.com/explore/tags/"))
                 {
-                    tag = ExtractInstTag(a);
-                    tmp.Images = inst.GetLinks(tag);
+                    tmp.Images = inst.GetLinks(a);
                 }
                 else if (a.Contains("www.facebook.com/media/set"))
                 {
-                    tag = ExtractFbTag(a);
-                    tmp.Images = fb.GetLinks(tag);
+                    tmp.Images = fb.GetLinks(a);
                 }
                 tmp.Gallery = a;
                 if (tmp.Images!=null)
@@ -109,9 +61,6 @@ namespace InFb.Controllers
 
             ViewBag.Message = result;
             ViewBag.Gallery = galleryname;
-
-
-            //ViewBag.Message = HttpUtility.HtmlEncode(galleryname);
 
             return View();
             
