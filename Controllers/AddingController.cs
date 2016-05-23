@@ -28,8 +28,8 @@ namespace InFb.Controllers
             }
 
 
-
-            return View();
+            return Redirect("/Gallery/Show/?galleryname=" + galleryname);
+            //return View();
         }
     }
 }

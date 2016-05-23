@@ -28,7 +28,7 @@ namespace InFb.Controllers
                 db.SaveChanges();
 
             }
-            return View();
+            return Redirect("/Home/Index");
         }
     }
 }
